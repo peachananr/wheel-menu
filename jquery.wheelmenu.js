@@ -272,6 +272,15 @@
             el.hideIcon(button, settings);
           }
         });
+
+        $('body').bind({
+          focusin: function(e){
+            var focussedEl = $(e.target)
+            if (!focussedEl.is(button) && focussedEl.closest(el).length === 0) {
+              el.hideIcon(button, settings);
+            }
+          }
+        });
         
       } else {
         button.click( function() {
