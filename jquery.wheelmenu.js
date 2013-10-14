@@ -262,7 +262,7 @@
       if (settings.trigger == "hover") {
 
         button.bind({
-          mouseenter: function() {
+          'mouseenter focusin': function() {
             el.showIcon(button, settings);
           }
         });
