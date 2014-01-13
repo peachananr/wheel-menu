@@ -2,6 +2,7 @@
 Wheel Menu is a small jQuery plugin that will add a fully customisable Path-like wheel menu button to your website
 Created by [Pete R.](http://www.thepetedesign.com), Founder of [BucketListly](http://www.bucketlistly.com)
 
+License: [Attribution-ShareAlike 4.0 International](http://creativecommons.org/licenses/by-sa/4.0/deed.en_US)
 
 [![Wheel Menu](http://www.thepetedesign.com/images/wheelmenu_image.png "Wheel Menu")](http://www.thepetedesign.com/demos/jquery_wheelmenu_demo.html)
 
