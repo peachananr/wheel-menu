@@ -179,7 +179,17 @@
       });
   };
   
-	
+	function isDescendant(parent, child) {
+	 if (parent == null) return false;
+     var node = child;
+     while (node != null) {
+         if (node == parent) {
+             return true;
+         }
+         node = node.parentNode;
+     }
+     return false;
+	}
 	function predefineAngle (settings) {
 	  var convert = false
 	  if ($.type(settings.angle) == "string") {
@@ -261,15 +271,20 @@
       })
       if (settings.trigger == "hover") {
 
-        button.bind({
-          mouseenter: function() {
-            el.showIcon(button, settings);
-          }
+        button.hover(function() {
+			if (!el.hasClass("active"))
+			{
+				el.showIcon(button, settings);
+			}
         });
         
         el.bind({
-          mouseleave: function() {
-            el.hideIcon(button, settings);
+          mouseleave: function(e) {
+            var evt = e || window.event;
+			if (!isDescendant(button[0], evt.relatedTarget) && !isDescendant(this, evt.relatedTarget))
+			{
+				el.hideIcon(button, settings);
+			}
           }
         });
         
