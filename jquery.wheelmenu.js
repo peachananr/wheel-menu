@@ -8,6 +8,8 @@
  * Path-like menu button to your website
  * https://github.com/peachananr/wheel-menu
  *
+ * v1.1 - Added linear animation type (Dharmesh Patel - dbpatel219)
+ *
  * ========================================================== */
 
 !function($){
