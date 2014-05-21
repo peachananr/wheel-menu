@@ -13,7 +13,7 @@
 !function($){
   
   var defaults = {
-		trigger: "click",
+		trigger: "hover",
 		animation: "fade",
 		angle: [0,360],
 		animationSpeed: "medium"
@@ -23,12 +23,13 @@
     var offset = button.offset(),
         width = button.outerWidth(),
         height = button.outerHeight(),
-        buttonX = (offset.left - $(document).scrollLeft() ) + width / 2,
-        buttonY = (offset.top -  $(document).scrollTop() ) + height / 2,
+        buttonX = (offset.left - $(document).scrollLeft()) + width  / 2,
+        buttonY = (offset.top  - $(document).scrollTop() ) + height / 2,
         objectOffset = this.offset();
+
     this.css("position","fixed");
-    this.css("top", buttonY  - (this.outerHeight() / 2)  + "px");
-    this.css("left", buttonX - (this.outerWidth() / 2)   + "px");
+    this.css("top",  buttonY - (this.outerHeight() / 2)  + "px");
+    this.css("left", buttonX - (this.outerWidth()  / 2)  + "px");
     return this;
   }
   
@@ -37,7 +38,7 @@
     this.stop(true,true);
     this.each(function(index) {
       angle = (settings.angle[0] + (step * index)) * (Math.PI/180); 
-      var x = Math.round(width/2 + radius * Math.cos(angle) - $(this).find("a").outerWidth()/2),
+      var x = Math.round(width/2  + radius * Math.cos(angle) - $(this).find("a").outerWidth()/2),
           y = Math.round(height/2 + radius * Math.sin(angle) - $(this).find("a").outerHeight()/2);
       $(this).animateRotate(360).css({
           position: 'absolute',
@@ -76,7 +77,7 @@
     this.stop(true,true);
     this.each(function(index) {
       angle = (settings.angle[0] + (step * index)) * (Math.PI/180); 
-      var x = Math.round(width/2 + radius * Math.cos(angle) - $(this).find("a").outerWidth()/2),
+      var x = Math.round(width/2  + radius * Math.cos(angle) - $(this).find("a").outerWidth()/2),
           y = Math.round(height/2 + radius * Math.sin(angle) - $(this).find("a").outerHeight()/2);
       $(this).css({
           position: 'absolute',
@@ -101,15 +102,48 @@
       button.removeClass("active")
     });
   }
+
+  $.fn.linearIn = function (el, button, width, height, angle, step, radius, settings) {
+    var d = 0;
+    var radians = angle * (Math.PI / 180);
+
+    var xDirection = Math.cos(radians);
+    var yDirection = Math.sin(radians);
+
+    var aWidth = $(this).find("a").outerWidth();
+    var aHeight = $(this).find("a").outerHeight();
+
+    var buttonDistanceX = (width - aWidth) / 2;
+    var buttonDistanceY = (height - aHeight) / 2;
+
+    this.stop(true,true);
+
+    this.each(function(index) {
+      var liX = index * (aWidth + 5);
+      var liY = index * (aHeight + 5);
+      var x = buttonDistanceX + (xDirection * ((aWidth + button.outerWidth()) / 2 + liX + 5));
+      var y = buttonDistanceY - (yDirection * ((aHeight + button.outerHeight()) / 2 + liY + 5));
+
+      $(this).css({
+          position: 'absolute',
+          left: x + 'px',
+          top: y + 'px',
+          opacity: 0
+      }).delay(d).animate({opacity:1}, settings.animationSpeed[1]);
+      
+      d += settings.animationSpeed[0];
+    });
+  }
 	
 	$.fn.hideIcon = function (button, settings) {
 	  var fields = this.find(".item"),
 	      el = this;
 	  switch (settings.animation) { 
-      case 'fade': 
+      case 'fade': // Fade out and linear is same, no break here
         fields.fadeOutIcon(el, button)
-        break; 
-    
+      case 'linear': 
+        fields.fadeOutIcon(el, button)
+        break;
       case 'fly': 
         fields.flyOut(el, button)
         break; 
@@ -126,9 +160,6 @@
 	  button.addClass("active").css({
       'z-index': zindex
     });
-    
-    
-    
 	  el.show().css({
         position: 'absolute',
         'z-index': '5',
@@ -142,21 +173,22 @@
     
     settings = predefineAngle(settings);
 	  var radius = el.width() / 2,
-      fields = el.find(".item"),
-      container = el,
-      width = container.innerWidth(),
-      height = container.innerHeight(),
-      angle =  0,
-      step = (settings.angle[1] - settings.angle[0]) / fields.length;
-     
+        fields = el.find(".item"),
+        container = el,
+        width = container.innerWidth(),
+        height = container.innerHeight(),
+        angle =  settings.animation == 'linear' ? settings.angle[0] : 0,
+        step = (settings.angle[1] - settings.angle[0]) / fields.length;
      
       switch (settings.animation) { 
         case 'fade': 
           fields.fadeInIcon(el, button, width, height, angle, step, radius, settings)
           break; 
-          
         case 'fly': 
           fields.flyIn(el, button, width, height, angle, step, radius, settings)
+          break; 
+        case 'linear': 
+          fields.linearIn(el, button, width, height, angle, step, radius, settings)
           break; 
       }
     
@@ -248,9 +280,8 @@
   
   $.fn.wheelmenu = function(options){
     var settings = $.extend({}, defaults, options);
-    
     settings = predefineSpeed(settings);
-    
+
     return this.each(function(){
       var button = $(this)
       var el = $($(this).attr("href"));
@@ -259,6 +290,7 @@
       button.css("opacity", 0).animate({
         opacity: 1
       })
+
       if (settings.trigger == "hover") {
 
         button.bind({
