@@ -274,7 +274,8 @@
         });
         
       } else {
-        button.click( function() {
+        button.click( function(evt) {
+		  evt.preventDefault();
           if (el.css('visibility') == "visible") {
             el.hideIcon(button, settings);
           } else {
