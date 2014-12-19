@@ -130,7 +130,7 @@
     
     
 	  el.show().css({
-        position: 'absolute',
+        'position': 'fixed',
         'z-index': '5',
         'padding': '30px' // add safe zone for mouseover
     }).centerAround(button); 
