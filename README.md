@@ -4,10 +4,8 @@ Created by [Pete R.](http://www.thepetedesign.com), Founder of [BucketListly](ht
 
 License: [Attribution-ShareAlike 4.0 International](http://creativecommons.org/licenses/by-sa/4.0/deed.en_US)
 
-[![Wheel Menu](http://www.thepetedesign.com/images/wheelmenu_image.png "Wheel Menu")](http://www.thepetedesign.com/demos/jquery_wheelmenu_demo.html)
-
 ## Demo
-[View demo](http://thepetedesign.com/demos/jquery_wheelmenu_demo.html)
+[View demo](http://peachananr.github.io/label_better/demo/demo.html)
 
 ## Usage
 To add this on your website, simply include the latest jQuery library found here together with `jquery.wheelmenu.js` and `wheelmenu.css` into your document's `<head>`, follow by the html markup and a function call as follows:
