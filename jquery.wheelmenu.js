@@ -262,7 +262,7 @@
       if (settings.trigger == "hover") {
 
         button.bind({
-          mouseenter: function() {
+          'mouseenter focusin': function() {
             el.showIcon(button, settings);
           }
         });
@@ -270,6 +270,15 @@
         el.bind({
           mouseleave: function() {
             el.hideIcon(button, settings);
+          }
+        });
+
+        $('body').bind({
+          focusin: function(e){
+            var focussedEl = $(e.target)
+            if (!focussedEl.is(button) && focussedEl.closest(el).length === 0) {
+              el.hideIcon(button, settings);
+            }
           }
         });
         
