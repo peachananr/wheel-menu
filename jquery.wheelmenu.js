@@ -252,8 +252,10 @@
     settings = predefineSpeed(settings);
     
     return this.each(function(){
-      var button = $(this)
-      var el = $($(this).attr("href"));
+      var button, $this, el,
+      $this = $(this);
+      button = $this;
+      el = $($this.attr("href") || $this.attr('data-href'));
       el.addClass("wheel");
       
       button.css("opacity", 0).animate({
